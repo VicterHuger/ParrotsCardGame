@@ -31,21 +31,20 @@ header>h1{
     flex-direction: column;
     justify-content: space-between;
 }
-ul{
+ul {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    max-width:50%;
-    /* max-width:min-content; */
-    background: red;
+    width: 75%;
     margin-left: auto;
-    margin-right: auto
+    margin-right: auto;
 }
+
 li{
     display: flex;
     list-style-type: none;
     background-color: #fafafa;
-    margin-bottom:50px;
+    margin: 0 1rem  2rem 1rem;
 }
 .carta-parrot-front{
     background-color: #A7E9AF;
