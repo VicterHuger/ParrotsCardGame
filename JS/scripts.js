@@ -12,52 +12,52 @@
 //transicaoCartaFront ->propriedade da classe da carta com a imagem inicial
 //transicaoCartaBack -> propriedade da classe da carta que contém o gif
 //numeroDaJogada -> propriedade para identificar qual o estado da carta -> 0-está virada de cabeça para baixo, 1-foi virada porém ainda não foi confirmada se outro par foi selecionado, 2->carta foi virada e seu par já foi encontrado
-// VARIÁVEL GLOBAL
+// VARIÁVEIS GLOBAL
 const lista=document.querySelector("ul");
 // CRIANDO OBJETOS
-const bobrossparrot={
+const objBobrossparrot={
     nomeGif:"bobrossparrot",
     idImg:"bobrossparrot",
     transicaoCartaFront:'',
     transicaoCartaBack:'',
     numeroDaJogada:0
 }
-const explodyparrot={
+const objExplodyparrot={
     nomeGif:"explodyparrot",
     idImg:"explodyparrot",
     transicaoCartaFront:'',
     transicaoCartaBack:'',
     numeroDaJogada:0
 }
-const fiestaparrot={
+const objFiestaparrot={
     nomeGif:"fiestaparrot",
     idImg:"fiestaparrot",
     transicaoCartaFront:'',
     transicaoCartaBack:'',
     numeroDaJogada:0
 }
-const metalparrot={
+const objMetalparrot={
     nomeGif:"metalparrot",
     idImg:"metalparrot",
     transicaoCartaFront:'',
     transicaoCartaBack:'',
     numeroDaJogada:0
 }
-const revertitparrot={
+const objRevertitparrot={
     nomeGif:"revertitparrot",
     idImg:"revertitparrot",
     transicaoCartaFront:'',
     transicaoCartaBack:'',
     numeroDaJogada:0
 }
-const tripletsparrot={
+const objTripletsparrot={
     nomeGif:"tripletsparrot",
     idImg:"tripletsparrot",
     transicaoCartaFront:'',
     transicaoCartaBack:'',
     numeroDaJogada:0
 }
-const unicornparrot={
+const objUnicornparrot={
     nomeGif:"unicornparrot",
     idImg:"unicornparrot",
     transicaoCartaFront:'',
@@ -65,7 +65,7 @@ const unicornparrot={
     numeroDaJogada:0
 }
 //CRIANDO UMA ARRAY DOS OBJETOS DAS CARTAS DIFERENTES DO JOGO 
-const todasAsCartas=[bobrossparrot,explodyparrot,fiestaparrot,metalparrot,revertitparrot,tripletsparrot,unicornparrot];
+const todasAsCartas=[objBobrossparrot,objExplodyparrot,objFiestaparrot,objMetalparrot,objRevertitparrot,objTripletsparrot,objUnicornparrot];
 //CRIANDO ARRAY DE OBJETOS DAS CARTAS QUE SERÃO USADAS NO JOGO
 function gerarVetorCartas(quantidade){
     let j=0;
@@ -102,11 +102,11 @@ function adicionarCartas(){
     for (let i=0;i<cartas.length;i++){
         lista.innerHTML+=
     `<li>
-        <div id=${cartas[i].idImg} class="carta-parrot-front" onclick="virarCarta(this)">
+        <div id=${cartas[i].idImg} class="carta-parrot-front" onclick="verificarCarta(this)">
             <div class="front-face face ${cartas[i].transicaoCartaFront}">
                 <img src="/imagens/front.png" alt="ilustração de um papagaio"/>
             </div>
-            <div class="back-face face" ${cartas[i].transicaoCartaBack}>
+            <div class="back-face face ${cartas[i].transicaoCartaBack}">
                 <img src="/gifs/${cartas[i].nomeGif}.gif" alt="gif de um papagaio"/>
             </div>
         </div>         
@@ -137,41 +137,58 @@ function distribuirCartas(){
 }
 distribuirCartas();
 //teste
-/* function virarcarta(element){
-    divFace=element.querySelector("div");
-    divBack=element.querySelector("div+div");
+function virarCarta(element){
+    let divFace=element.querySelector("div");
+    let divBack=element.querySelector("div+div");
     divBack.classList.toggle("transicao-back-face");
     divFace.classList.toggle("transicao-front-face");
-} */
-//VIRAR A CARTA
- function virarCarta(elemento){
-    let idCarta=elemento.id;
-    verificarCarta(idCarta);
 }
-//VERIFICAR SE A CARTA SERÁ VIRADA OU NÃO QUANDO CLICADA
-function verificarCarta(idElemento){
+//VIRAR A CARTA
+ function verificarCarta(elemento){
+    let idCarta=elemento.id;
     //ENCONTRAR O INDEX DO OBJETO RELACIONADO AO ELEMENTO QUE FOI CLICADO, NO ARRAY CARTAS
     let indexElementoClicado;
-    for (let i=0;i<cartas.length;i++){
-        if(cartas[i].idImg===idElemento){
-            indexElementoClicado=i;
-            break;
-        } 
+    let count=0;
+    for (let j=0;j<cartas.length;j++){
+        if(cartas[j].idImg===idCarta){
+            indexElementoClicado=j;
+        }
+        if(cartas[j].numeroDaJogada===1){
+            count++;
+        }
     }
-    //ATUALIZAR O NUMERO DA JOGADA EM FUNCAO DA POSICAO DA CARTA
-    for (let i=0;i<cartas.length;i++){
-        //VERIFICAR SE JÁ TEM ALGUMA CARTA VIRADA E ATUALIZA O NÚMERO DE JOGADAS
-        if(cartas[i].numeroDaJogada===1 && cartas[indexElementoClicado].numeroDaJogada===0){
-            cartas[indexElementoClicado].numeroDaJogada=1;
-            if(cartas[i].nomeGif===cartas[indexElementoClicado].nomeGif){
+    if(count<=1 && cartas[indexElementoClicado].numeroDaJogada===0){
+        cartas[indexElementoClicado].numeroDaJogada=1;
+        count++;
+        virarCarta(elemento);
+        if(count===1){return;}
+    } 
+    if(count===2 && cartas[indexElementoClicado].numeroDaJogada===1){
+        for (let i=0;i<cartas.length;i++){
+            if(cartas[i].nomeGif===cartas[indexElementoClicado].nomeGif && cartas[i].idImg!==idCarta && cartas[i].numeroDaJogada===1){
                 cartas[indexElementoClicado].numeroDaJogada=2;
                 cartas[i].numeroDaJogada=2;
                 return;
-            }else{
-                cartas[indexElementoClicado].numeroDaJogada=0;
-                cartas[i].numeroDaJogada=0;
-                return;
             }
         }
-    }
+        for(let k=0;k<cartas.length;k++){
+            if(cartas[k].numeroDaJogada===1 && cartas[k].idImg!==idCarta){
+                cartas[k].numeroDaJogada=0;
+                cartas[indexElementoClicado].numeroDaJogada=0;
+                setTimeout(function(){
+                    let divFace=elemento.querySelector("div");
+                    let divBack=elemento.querySelector("div+div");
+                    divBack.classList.toggle("transicao-back-face");
+                    divFace.classList.toggle("transicao-front-face");
+                    element=document.getElementById(cartas[k].idImg);
+                    divFace=element.querySelector("div");
+                    divBack=element.querySelector("div+div"); 
+                    divBack.classList.toggle("transicao-back-face");
+                    divFace.classList.toggle("transicao-front-face");
+                },1000);
+                return;
+            }
+        } 
+    }  
 }
+

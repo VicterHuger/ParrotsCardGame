@@ -93,7 +93,7 @@ li{
    .transicao-front-face{
      transform: rotateY(-180deg);
    }
-   .carta-parrot-front img{
+    img{
     width:100px;
     height:auto;
 }
