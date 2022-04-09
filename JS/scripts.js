@@ -1,59 +1,93 @@
-//VARIÁVEIS GLOBAIS
 //IDENTIFICAÇÃO DOS GIFS
-// #id="bobrossparrot" ->gifs/bobrossparrot
-// #id="explodyparrot" ->gifs/explodyparrot
-// #id="fiestaparrot" ->gifs/fiestaparrotf
-// #id="metalparrot" ->gifs/metalparrot
-// #id="revertitparrot" ->gifs/gifs/revertitparrot
-// #id="tripletsparrot"->gifs/tripletsparrot
-// #id="unicornparrot" ->/gifs/unicornparrot
-//Definindo todas as diferentes cartas existentes no jogo
-const todasAsCartas=[`<li>
-    <div class="carta-parrot-front">
-        <img class=""src="/imagens/front.png" alt="ilustração de um papagaio"/>
-        <img #id="bobrossparrot" class="desabilitado"src="/gifs/bobrossparrot.gif" alt="gif de um papagaio"/>
-    </div>
-</li>`,`<li>
-    <div class="carta-parrot-front">
-        <img src="/imagens/front.png" alt="ilustração de um papagaio"/>
-        <img #id="explodyparrot" class="desabilitado" src="/gifs/explodyparrot.gif" alt="gif de um papagaio"/>
-    </div>
-</li>`,`<li>
-<div class="carta-parrot-front">
-    <img src="/imagens/front.png" alt="ilustração de um papagaio"/>
-    <img #id="fiestaparrot" class="desabilitado" src="/gifs/fiestaparrot.gif" alt="gif de um papagaio"/>
-</div>
-</li>`,`<li>
-<div class="carta-parrot-front">
-    <img src="/imagens/front.png" alt="ilustração de um papagaio"/>
-    <img #id="metalparrot" class="desabilitado" src="/gifs/metalparrot.gif" alt="gif de um papagaio"/>
-</div>
-</li>`,`<li>
-<div class="carta-parrot-front">
-    <img src="/imagens/front.png" alt="ilustração de um papagaio"/>
-    <img #id="revertitparrot" class="desabilitado" src="/gifs/revertitparrot.gif" alt="gif de um papagaio"/>
-</div>
-</li>`, `<li>
-<div class="carta-parrot-front">
-    <img src="/imagens/front.png" alt="ilustração de um papagaio"/>
-    <img #id="tripletsparrot" class="desabilitado" src="/gifs/tripletsparrot.gif" alt="gif de um papagaio"/>
-</div>
-</li>`, `<li>
-<div class="carta-parrot-front">
-    <img src="/imagens/front.png" alt="ilustração de um papagaio"/>
-    <img #id="unicornparrot" class="desabilitado" src="/gifs/unicornparrot.gif" alt="gif de um papagaio"/>
-</div>
-</li>`];
-
+// id="bobrossparrot" ->gifs/bobrossparrot
+// id="explodyparrot" ->gifs/explodyparrot
+// id="fiestaparrot" ->gifs/fiestaparrotf
+// id="metalparrot" ->gifs/metalparrot
+// id="revertitparrot" ->gifs/gifs/revertitparrot
+// id="tripletsparrot"->gifs/tripletsparrot
+// id="unicornparrot" ->/gifs/unicornparrot
+//CRIANDO OBJETOS PARA CADA CARTA DIFERENTE NO JOGO
+//nomeGif -> propriedade para identificar elementos que tenham a mesma imagem GIF
+//idImg ->propriedade para diferenciar cada carta do jogo
+//transicaoCartaFront ->propriedade da classe da carta com a imagem inicial
+//transicaoCartaBack -> propriedade da classe da carta que contém o gif
+//numeroDaJogada -> propriedade para identificar qual o estado da carta -> 0-está virada de cabeça para baixo, 1-foi virada porém ainda não foi confirmada se outro par foi selecionado, 2->carta foi virada e seu par já foi encontrado
+// VARIÁVEL GLOBAL
 const lista=document.querySelector("ul");
-//CRIANDO ARRAY COM AS CARTAS QUE SERÃO USADAS NO JOGO
+// CRIANDO OBJETOS
+const bobrossparrot={
+    nomeGif:"bobrossparrot",
+    idImg:"bobrossparrot",
+    transicaoCartaFront:'',
+    transicaoCartaBack:'',
+    numeroDaJogada:0
+}
+const explodyparrot={
+    nomeGif:"explodyparrot",
+    idImg:"explodyparrot",
+    transicaoCartaFront:'',
+    transicaoCartaBack:'',
+    numeroDaJogada:0
+}
+const fiestaparrot={
+    nomeGif:"fiestaparrot",
+    idImg:"fiestaparrot",
+    transicaoCartaFront:'',
+    transicaoCartaBack:'',
+    numeroDaJogada:0
+}
+const metalparrot={
+    nomeGif:"metalparrot",
+    idImg:"metalparrot",
+    transicaoCartaFront:'',
+    transicaoCartaBack:'',
+    numeroDaJogada:0
+}
+const revertitparrot={
+    nomeGif:"revertitparrot",
+    idImg:"revertitparrot",
+    transicaoCartaFront:'',
+    transicaoCartaBack:'',
+    numeroDaJogada:0
+}
+const tripletsparrot={
+    nomeGif:"tripletsparrot",
+    idImg:"tripletsparrot",
+    transicaoCartaFront:'',
+    transicaoCartaBack:'',
+    numeroDaJogada:0
+}
+const unicornparrot={
+    nomeGif:"unicornparrot",
+    idImg:"unicornparrot",
+    transicaoCartaFront:'',
+    transicaoCartaBack:'',
+    numeroDaJogada:0
+}
+//CRIANDO UMA ARRAY DOS OBJETOS DAS CARTAS DIFERENTES DO JOGO 
+const todasAsCartas=[bobrossparrot,explodyparrot,fiestaparrot,metalparrot,revertitparrot,tripletsparrot,unicornparrot];
+//CRIANDO ARRAY DE OBJETOS DAS CARTAS QUE SERÃO USADAS NO JOGO
 function gerarVetorCartas(quantidade){
     let j=0;
-    cartas=[];
+    const cartas=[];
+    //GERA UM NOVO OBJETO PARA PODER DIFERENCIAR AS CARTAS POR IDS DIFERENTES
+  	let novoObje={
+    nomeGif:"",
+    idImg:"",
+    transicaoCartaFront:'',
+    transicaoCartaBack:'',
+    numeroDaJogada:0}
     for (let i=0;i<quantidade;i++){
-        cartas[j]=todasAsCartas[i];
+        novoObje={
+            nomeGif:"",
+            idImg:"",
+            transicaoCartaFront:'',
+            transicaoCartaBack:'',
+            numeroDaJogada:0}
+        cartas.push(todasAsCartas[i]);
         j++;
-        cartas[j]=todasAsCartas[i];
+        cartas.push(Object.assign(novoObje,todasAsCartas[i]));
+        cartas[j].idImg=`${cartas[j].idImg}.2`;
         j++;
     }
     return cartas;
@@ -61,6 +95,23 @@ function gerarVetorCartas(quantidade){
 //FUNÇÃO DE COMPARAÇÃO DO SORT PARA DISPOR AS CARTAS ALEATORIAMENTE
 function comparador() { 
 	return Math.random() - 0.5;
+}
+//FUNÇÃO QUE ADICIONA AS CARTAS AO JOGO
+function adicionarCartas(){
+        lista.innerHTML="";
+    for (let i=0;i<cartas.length;i++){
+        lista.innerHTML+=
+    `<li>
+        <div id=${cartas[i].idImg} class="carta-parrot-front" onclick="virarCarta(this)">
+            <div class="front-face face ${cartas[i].transicaoCartaFront}">
+                <img src="/imagens/front.png" alt="ilustração de um papagaio"/>
+            </div>
+            <div class="back-face face" ${cartas[i].transicaoCartaBack}>
+                <img src="/gifs/${cartas[i].nomeGif}.gif" alt="gif de um papagaio"/>
+            </div>
+        </div>         
+    </li>` 
+    }
 }
 //DISTRIBUIÇÃO DE CARTAS
 function distribuirCartas(){
@@ -82,8 +133,45 @@ function distribuirCartas(){
     let numeroDeCartasDiferentes=numeroDeCartas/2;
     cartas=gerarVetorCartas(numeroDeCartasDiferentes);
     cartas.sort(comparador); // Após esta linha, as cartas estarão embaralhadas
+    adicionarCartas();  
+}
+distribuirCartas();
+//teste
+/* function virarcarta(element){
+    divFace=element.querySelector("div");
+    divBack=element.querySelector("div+div");
+    divBack.classList.toggle("transicao-back-face");
+    divFace.classList.toggle("transicao-front-face");
+} */
+//VIRAR A CARTA
+ function virarCarta(elemento){
+    let idCarta=elemento.id;
+    verificarCarta(idCarta);
+}
+//VERIFICAR SE A CARTA SERÁ VIRADA OU NÃO QUANDO CLICADA
+function verificarCarta(idElemento){
+    //ENCONTRAR O INDEX DO OBJETO RELACIONADO AO ELEMENTO QUE FOI CLICADO, NO ARRAY CARTAS
+    let indexElementoClicado;
     for (let i=0;i<cartas.length;i++){
-        lista.innerHTML+=cartas[i];
+        if(cartas[i].idImg===idElemento){
+            indexElementoClicado=i;
+            break;
+        } 
+    }
+    //ATUALIZAR O NUMERO DA JOGADA EM FUNCAO DA POSICAO DA CARTA
+    for (let i=0;i<cartas.length;i++){
+        //VERIFICAR SE JÁ TEM ALGUMA CARTA VIRADA E ATUALIZA O NÚMERO DE JOGADAS
+        if(cartas[i].numeroDaJogada===1 && cartas[indexElementoClicado].numeroDaJogada===0){
+            cartas[indexElementoClicado].numeroDaJogada=1;
+            if(cartas[i].nomeGif===cartas[indexElementoClicado].nomeGif){
+                cartas[indexElementoClicado].numeroDaJogada=2;
+                cartas[i].numeroDaJogada=2;
+                return;
+            }else{
+                cartas[indexElementoClicado].numeroDaJogada=0;
+                cartas[i].numeroDaJogada=0;
+                return;
+            }
+        }
     }
 }
-distribuirCartas()
