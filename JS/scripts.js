@@ -15,6 +15,8 @@
 // VARIÁVEIS GLOBAL
 const lista=document.querySelector("ul");
 let contadorJogadas=0;
+let tempo=-1; //VALOR INICIAL PARA -1 PARA QUE O DELAY DO SETINTERVAL NAO "MASCARE" O TEMPO REAL 
+let idInterval;
 // CRIANDO OBJETOS
 const objBobrossparrot={
     nomeGif:"bobrossparrot",
@@ -116,9 +118,9 @@ function adicionarCartas(){
 }
 //DISTRIBUIÇÃO DE CARTAS
 function distribuirCartas(){
-    let numeroDeCartas=Number(prompt("Olá! Este é o ParrotGame, um jogo da memória incrível! É super simples, basta digitar com quantas cartas você quer jogar! - Escolha um número par de 4 a 14"));
+    let numeroDeCartas=Number(prompt("Olá! Este é o ParrotGame 🦜, um jogo da memória incrível 🎮! É super simples, basta digitar com quantas cartas você quer jogar! - Escolha um número par de 4 a 14"));
     while (!numeroDeCartas){
-        numeroDeCartas=Number(prompt("Não foi possível identificar o número de cartas, digite um valor numeral par de 4 a 14. Exemplo de Resposta: 10"));
+        numeroDeCartas=Number(prompt("Não foi possível identificar o número de cartas 😔, digite um valor numeral par de 4 a 14. Exemplo de Resposta: 10"));
     }
     while (numeroDeCartas<4 || numeroDeCartas>14 || numeroDeCartas%2!==0){
         if(numeroDeCartas<4){
@@ -137,6 +139,8 @@ function distribuirCartas(){
     adicionarCartas();  
 }
 distribuirCartas();
+//CHAMANDO A FUNÇÃO DE CONTROLE DO TEMPO
+cronometro();
 //teste
 function virarCarta(element){
     let divFace=element.querySelector("div");
@@ -202,7 +206,55 @@ function finalizarJogo(){
         }
     }
     if(count===cartas.length){
-        alert(`Você ganhou em ${contadorJogadas} jogadas!`)
+        clearInterval(idInterval);
+        alert(`Você ganhou em ${contadorJogadas} jogadas e ${tempo} segundos! 🏆`);
+        resposta=prompt("E aí, vamos jogar novamente 🤩? E se você usar mais cartas🎴? Que tal? Caso queira jogar, responda com sim (letras todas minúsculas). Caso não deseja jogar novamente, responda com não (letras minúsculas e com ~)");
+        console.log(resposta)
+        if(resposta!=="não" && resposta!=="sim"){
+            while(resposta!=="não" && resposta!=="sim"){
+                resposta=prompt("Não entendemos o que você digitou 😔. Caso queira jogar, responda com sim (letras todas minúsculas). Caso não deseja jogar novamente, responda com não (letras minúsculas e com ~")
+            }
+        }
+        if(resposta==="sim"){
+            lista.innerHTML+="";
+            contadorJogadas=0;
+            for (let i=0;i<cartas.length;i++){
+                cartas[i].idImg=cartas[i].nomeGif;
+                cartas[i].transicaoCartaBack="";
+                cartas[i].transicaoCartaFront="";
+                cartas[i].numeroDaJogada=0;
+            }
+            distribuirCartas();
+            tempo=-1;
+            cronometro();
+        }
+    }
+}
+function cronometro(){
+    idInterval=setInterval(contarTempo,1000);
+}
+function contarTempo(){
+    tempo++;
+    if(tempo<10){
+        document.querySelector(".cronometro").innerHTML=`⏲️00:0${tempo}`;
+    }else if(tempo<60){
+        document.querySelector(".cronometro").innerHTML=`⏲️00:${tempo}`;
+    }else{
+        let minutos=Math.floor(tempo/60).toFixed(0);
+        let segundos=tempo%60;
+        if(segundos<10){
+            if(minutos<10){
+                document.querySelector(".cronometro").innerHTML=`⏲️0${minutos}:0${segundos}`;
+            }else{
+                document.querySelector(".cronometro").innerHTML=`⏲️${minutos}:0${segundos}`
+            }
+        }else{
+            if(minutos<10){
+                document.querySelector(".cronometro").innerHTML=`⏲️0${minutos}:${segundos}`
+            }else{
+                document.querySelector(".cronometro").innerHTML=`⏲️${minutos}:${segundos}`
+            }
+        }
     }
 }
 
