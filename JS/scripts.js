@@ -14,6 +14,7 @@
 //numeroDaJogada -> propriedade para identificar qual o estado da carta -> 0-está virada de cabeça para baixo, 1-foi virada porém ainda não foi confirmada se outro par foi selecionado, 2->carta foi virada e seu par já foi encontrado
 // VARIÁVEIS GLOBAL
 const lista=document.querySelector("ul");
+let contadorJogadas=0;
 // CRIANDO OBJETOS
 const objBobrossparrot={
     nomeGif:"bobrossparrot",
@@ -145,6 +146,7 @@ function virarCarta(element){
 }
 //VIRAR A CARTA
  function verificarCarta(elemento){
+    contadorJogadas++;
     let idCarta=elemento.id;
     //ENCONTRAR O INDEX DO OBJETO RELACIONADO AO ELEMENTO QUE FOI CLICADO, NO ARRAY CARTAS
     let indexElementoClicado;
@@ -168,6 +170,7 @@ function virarCarta(element){
             if(cartas[i].nomeGif===cartas[indexElementoClicado].nomeGif && cartas[i].idImg!==idCarta && cartas[i].numeroDaJogada===1){
                 cartas[indexElementoClicado].numeroDaJogada=2;
                 cartas[i].numeroDaJogada=2;
+                finalizarJogo();
                 return;
             }
         }
@@ -190,5 +193,16 @@ function virarCarta(element){
             }
         } 
     }  
+}
+function finalizarJogo(){
+    let count=0;
+    for (let l=0;l<cartas.length;l++){
+        if(cartas[l].numeroDaJogada===2){
+            count++;
+        }
+    }
+    if(count===cartas.length){
+        alert(`Você ganhou em ${contadorJogadas} jogadas!`)
+    }
 }
 
