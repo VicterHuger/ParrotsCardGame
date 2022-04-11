@@ -154,7 +154,6 @@ function virarCarta(element){
 }
 //VERIFICAR SE A CARTA PODE SER VIRADA E EXECUTANDO A FUNÇÃO DE VIRAR A CARTA
  function verificarCarta(elemento){
-    contadorJogadas++;
     let idCarta=elemento.id;
     //ENCONTRAR O INDEX NO ARRAY DE CARTAS DO OBJETO RELACIONADO AO ELEMENTO QUE FOI CLICADO
     let indexElementoClicado;
@@ -171,6 +170,7 @@ function virarCarta(element){
         cartas[indexElementoClicado].numeroDaJogada=1;
         count++;
         virarCarta(elemento);
+        contadorJogadas++;
         if(count===1){return;}
     } 
     if(count===2 && cartas[indexElementoClicado].numeroDaJogada===1){
