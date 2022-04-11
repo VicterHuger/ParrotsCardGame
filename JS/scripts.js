@@ -15,7 +15,7 @@
 // VARIÁVEIS GLOBAL
 const lista=document.querySelector("ul");
 let contadorJogadas=0;
-let tempo=-1; //VALOR INICIAL PARA -1 PARA QUE O DELAY DO SETINTERVAL NAO "MASCARE" O TEMPO REAL 
+let tempo=-1; //VALOR INICIAL PARA -1 PARA QUE O DELAY DO SETINTERVAL NAO "MASCARE" O TEMPO REAL E O CONTADOR COMECE EM 0
 let idInterval;
 // CRIANDO OBJETOS
 const objBobrossparrot={
@@ -117,42 +117,46 @@ function adicionarCartas(){
     }
 }
 //DISTRIBUIÇÃO DE CARTAS
-function distribuirCartas(){
-    let numeroDeCartas=Number(prompt("Olá! Este é o ParrotGame 🦜, um jogo da memória incrível 🎮! É super simples, basta digitar com quantas cartas você quer jogar! - Escolha um número par de 4 a 14"));
-    while (!numeroDeCartas){
-        numeroDeCartas=Number(prompt("Não foi possível identificar o número de cartas 😔, digite um valor numeral par de 4 a 14. Exemplo de Resposta: 10"));
+function distribuirCartas() {
+    let numeroDeCartas = Number(prompt("Olá! Este é o ParrotGame 🦜, um jogo da memória incrível 🎮! É super simples,basta digitar com quantas cartas você quer jogar! - Escolha um número par de 4 a 14"));
+    while (!numeroDeCartas) {
+      numeroDeCartas = Number(prompt("Não foi possível identificar o número de cartas 😔, digite um valor numeral par de 4 a 14. Exemplo de Resposta: 10"));
     }
-    while (numeroDeCartas<4 || numeroDeCartas>14 || numeroDeCartas%2!==0){
-        if(numeroDeCartas<4){
-            numeroDeCartas=Number(prompt("Não é possível jogar com números menores que 4. Escolha um valor par entre 4 e 14."));
-        }
-        if(numeroDeCartas>14){
-            numeroDeCartas=Number(prompt("Não é possível jogar com números maiores que 14. Escolha um valor par entre 4 e 14."));
-        }
-        if(numeroDeCartas%2!==0){
-            numeroDeCartas=Number(prompt("Não é possível jogar com números ímpares de cartas. Escolha valores pares entre 4 e 14. Respostas possíveis: 4, 6, 8, 10, 12 e 14."))
-        }
+    while (numeroDeCartas < 4 ||numeroDeCartas > 14 ||numeroDeCartas % 2 !== 0) {
+      if(!numeroDeCartas){
+        numeroDeCartas = Number(prompt("Não foi possível identificar o número de cartas 😔, digite um valor numeral par de 4 a 14. Exemplo de Resposta: 10"));
+      }
+
+      if (numeroDeCartas < 4) {
+        numeroDeCartas = Number(prompt("Não é possível jogar com números menores que 4. Escolha um valor par entre 4 e 14"));
+      }
+      if (numeroDeCartas > 14) {
+        numeroDeCartas = Number(prompt("Não é possível jogar com números maiores que 14. Escolha um valor par entre 4 e 14."));
+      }
+      if (numeroDeCartas && numeroDeCartas % 2 !== 0) {
+        numeroDeCartas = Number(prompt("Não é possível jogar com números ímpares de cartas. Escolha valores pares entre 4 e 14. Respostas possíveis: 4, 6, 8, 10, 12 e 14."));
+      }
     }
-    let numeroDeCartasDiferentes=numeroDeCartas/2;
-    cartas=gerarVetorCartas(numeroDeCartasDiferentes);
+    let numeroDeCartasDiferentes = numeroDeCartas / 2;
+    cartas = gerarVetorCartas(numeroDeCartasDiferentes);
     cartas.sort(comparador); // Após esta linha, as cartas estarão embaralhadas
-    adicionarCartas();  
-}
+    adicionarCartas();
+  }
 distribuirCartas();
 //CHAMANDO A FUNÇÃO DE CONTROLE DO TEMPO
 cronometro();
-//teste
+//FUNÇÃO PARA VIRAR A CARTA
 function virarCarta(element){
     let divFace=element.querySelector("div");
     let divBack=element.querySelector("div+div");
     divBack.classList.toggle("transicao-back-face");
     divFace.classList.toggle("transicao-front-face");
 }
-//VIRAR A CARTA
+//VERIFICAR SE A CARTA PODE SER VIRADA E EXECUTANDO A FUNÇÃO DE VIRAR A CARTA
  function verificarCarta(elemento){
     contadorJogadas++;
     let idCarta=elemento.id;
-    //ENCONTRAR O INDEX DO OBJETO RELACIONADO AO ELEMENTO QUE FOI CLICADO, NO ARRAY CARTAS
+    //ENCONTRAR O INDEX NO ARRAY DE CARTAS DO OBJETO RELACIONADO AO ELEMENTO QUE FOI CLICADO
     let indexElementoClicado;
     let count=0;
     for (let j=0;j<cartas.length;j++){
@@ -207,29 +211,30 @@ function finalizarJogo(){
     }
     if(count===cartas.length){
         clearInterval(idInterval);
-        alert(`Você ganhou em ${contadorJogadas} jogadas e ${tempo} segundos! 🏆`);
-        resposta=prompt("E aí, vamos jogar novamente 🤩? E se você usar mais cartas🎴? Que tal? Caso queira jogar, responda com sim (letras todas minúsculas). Caso não deseja jogar novamente, responda com não (letras minúsculas e com ~)");
-        console.log(resposta)
-        if(resposta!=="não" && resposta!=="sim"){
+        //setTimeout para permitir que a carta vire completamente!
+        setTimeout(function(){
+            alert(`Você ganhou em ${contadorJogadas} jogadas e ${tempo} segundos! 🏆`);
+            resposta=prompt("E aí, vamos jogar novamente 🤩? E se você usar mais cartas🎴? Que tal? Caso queira jogar, responda com sim (letras todas minúsculas). Caso não deseja jogar novamente, responda com não");
             while(resposta!=="não" && resposta!=="sim"){
-                resposta=prompt("Não entendemos o que você digitou 😔. Caso queira jogar, responda com sim (letras todas minúsculas). Caso não deseja jogar novamente, responda com não (letras minúsculas e com ~")
+                resposta=prompt("Não entendemos o que você digitou 😔. Caso queira jogar, responda com sim (letras todas minúsculas). Caso não deseja jogar novamente, responda com não (letras minúsculas e com ~)")
             }
-        }
-        if(resposta==="sim"){
-            lista.innerHTML+="";
-            contadorJogadas=0;
-            for (let i=0;i<cartas.length;i++){
-                cartas[i].idImg=cartas[i].nomeGif;
-                cartas[i].transicaoCartaBack="";
-                cartas[i].transicaoCartaFront="";
-                cartas[i].numeroDaJogada=0;
+            if(resposta==="sim"){
+                lista.innerHTML+="";
+                contadorJogadas=0;
+                for (let i=0;i<cartas.length;i++){
+                    cartas[i].idImg=cartas[i].nomeGif;
+                    cartas[i].transicaoCartaBack="";
+                    cartas[i].transicaoCartaFront="";
+                    cartas[i].numeroDaJogada=0;
+                }
+                distribuirCartas();
+                tempo=-1;
+                cronometro();
             }
-            distribuirCartas();
-            tempo=-1;
-            cronometro();
-        }
+        },100);
     }
 }
+
 function cronometro(){
     idInterval=setInterval(contarTempo,1000);
 }

@@ -51,8 +51,6 @@ header>h1{
     flex-direction: column;
     margin-left: auto;
     margin-right: auto;
-    /* padding-top: 124.79%; */ /* 146:117 Aspect Ratio */
-    /*position: relative;*/ 
 }
 ul {
     display: flex;
@@ -81,7 +79,7 @@ li{
     height:146px;
     position:relative;
 }
-  .face {
+.face {
     border:1px solid #99CEA8;
     background-color: #a5e9ad;
     width: 100%;
@@ -95,20 +93,20 @@ li{
     backface-visibility: hidden;
     transition: all .5s;
     transform-style: preserve-3d;
-  }
+}    
 
-   .back-face/*,.back-face>img*/{
+.back-face{
     transform: rotateY(180deg);
-   }
+}
 
-   .transicao-back-face/*,.back-face>img*/{
+.transicao-back-face{
      transform: rotateY(0deg);
-   } 
+} 
 
-   .transicao-front-face{
+.transicao-front-face{
      transform: rotateY(-180deg);
-   }
-    img{
+}
+img{
     width:100px;
     height:auto;
 }
